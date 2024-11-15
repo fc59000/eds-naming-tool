@@ -29,7 +29,7 @@ if 'evaluations' not in st.session_state:
         # Score final
         'score_final'
     ])
-# Fonctions utilitaires
+
 def calculate_weighted_score(row):
     # Moyennes par dimension
     fonc_score = np.mean([row['fonc_prononciation'], row['fonc_international'], 
@@ -80,22 +80,6 @@ def create_radar_chart(acronym_data):
     )
     
     return fig
-  # Interface principale
-def main():
-    st.title("Outil d'évaluation des noms EDS-R")
-    
-    # Menu de navigation
-    menu = ["Accueil", "Ajout Propositions", "Évaluation", "Résultats"]
-    choice = st.sidebar.selectbox("Menu", menu)
-    
-    if choice == "Accueil":
-        show_home()
-    elif choice == "Ajout Propositions":
-        show_add_acronym()
-    elif choice == "Évaluation":
-        show_evaluation()
-    elif choice == "Résultats":
-        show_results()
 
 def show_home():
     st.header("Bienvenue dans l'outil d'évaluation des noms EDS-R")
@@ -131,7 +115,8 @@ def show_add_acronym():
             st.session_state.acronyms = pd.concat([st.session_state.acronyms, new_acronym], 
                                                 ignore_index=True)
             st.success(f"Acronyme {acronym} ajouté avec succès!")
-          def show_evaluation():
+
+def show_evaluation():
     st.header("Évaluation des propositions")
     
     if len(st.session_state.acronyms) == 0:
@@ -225,6 +210,22 @@ def show_results():
     ].iloc[0]
     
     st.plotly_chart(create_radar_chart(acronym_data))
+
+def main():
+    st.title("Outil d'évaluation des noms EDS-R")
+    
+    # Menu de navigation
+    menu = ["Accueil", "Ajout Propositions", "Évaluation", "Résultats"]
+    choice = st.sidebar.selectbox("Menu", menu)
+    
+    if choice == "Accueil":
+        show_home()
+    elif choice == "Ajout Propositions":
+        show_add_acronym()
+    elif choice == "Évaluation":
+        show_evaluation()
+    elif choice == "Résultats":
+        show_results()
 
 if __name__ == '__main__':
     main()
